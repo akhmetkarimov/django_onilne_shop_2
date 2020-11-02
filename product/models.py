@@ -2,6 +2,8 @@ import time
 from django.db import models
 from mptt import models as mptt_models
 
+
+
 def upload_product_img(instance, filename):
     lastDot = filename.rfind('.')
     extension = filename[lastDot:len(filename):1]
