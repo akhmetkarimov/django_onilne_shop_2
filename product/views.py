@@ -21,6 +21,51 @@ class CharacteristicViews(APIView):
         
         return Response({"status": "faild", "message": serializer_elem.errors})
 
+class CharacteristicDetailViews(APIView):
+    serializers_classes = serializers.CharacteristicSerializers
+
+    def get_queryset(self, pk):
+        element = None
+        try:
+            element = models.Characteristic.objects.get(pk=pk)
+        except models.Characteristic.DoesNotExist:
+            return False
+        return element
+
+    def get(self, request, pk):
+        item = self.get_queryset(pk)
+        
+        if not item:
+            return Response({"message": "NOT FOUND"})
+        
+        serialized_item  = self.serializers_classes(item)
+        return Response(serialized_item.data)
+
+
+    def delete(self, request, pk):
+        item = self.get_queryset(pk)
+        
+        if not item:
+            return Response({"message": "NOT FOUND"})
+        
+        item.delete()
+        return Response({"message":"DELETED"})
+
+
+    def put(self, request, pk):
+        item = self.get_queryset(pk)
+        if not item:
+            return Response({"message": "NOT FOUND"})
+            
+        serialized_item = self.serializers_classes(item, data=request.data)
+        
+        if serialized_item.is_valid():
+            serialized_item.save()
+            return Response(serialized_item.data)
+        else:
+            return Response({"message": serialized_item.errors})
+
+
 
 class CategoryViews(APIView):
     serializers_classes = serializers.CategorySerializers
