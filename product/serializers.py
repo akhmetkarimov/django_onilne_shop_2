@@ -30,8 +30,8 @@ class CategoryForProductSerializers(serializers.ModelSerializer):
 
 
 class ProductSerializers(serializers.ModelSerializer):
-    characteristic = CharacteristicSerializers
-    categories = CategoryForProductSerializers(many=True)
+    # characteristic = CharacteristicSerializers
+    # categories = CategoryForProductSerializers(many=True)
 
     class Meta:
         model = models.Product

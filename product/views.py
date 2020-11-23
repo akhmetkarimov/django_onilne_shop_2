@@ -1,6 +1,21 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import generics
 from product import serializers, models
+from rest_framework.generics import ListAPIView
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
+from product import utils
+
+class ProductViews(ListAPIView):
+    serializer_class = serializers.ProductSerializers
+    queryset = models.Product.objects.all()
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    # pagination_class = utils.BaseProductPagination
+    ordering_fields = ['product_price', 'product_sale']
+    search_fields = ['product_name', 'product_description']
+    filterset_fields = ['product_price', 'product_sale', 'is_feachered']
 
 
 class CharacteristicViews(APIView):
@@ -76,12 +91,21 @@ class CategoryViews(APIView):
         return Response(serializer_elem.data)
 
 
-class ProductViews(APIView):
-    serializers_classes = serializers.ProductSerializers
+# class ProductViews(APIView):
+#     serializers_classes = serializers.ProductSerializers
 
-    def get(self, request):
-        products = models.Product.objects.all()
-        serializer_elem = self.serializers_classes(products, many=True)
-        return Response(serializer_elem.data)
+#     def get(self, request):
+#         products = models.Product.objects.all()
+#         serializer_elem = self.serializers_classes(products, many=True)
+#         return Response(serializer_elem.data)
 
 
+#     def post(self, request):
+#         element = request.data
+#         serializer_elem = self.serializers_classes(data=element)
+        
+#         if serializer_elem.is_valid():
+#             serializer_elem.save()
+#             return Response(serializer_elem.data)
+        
+#         return Response({"status": "faild", "message": serializer_elem.errors})
