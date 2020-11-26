@@ -5,6 +5,7 @@ from product import serializers, models
 from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from django.http import HttpResponse
 
 from product import utils
 
@@ -109,3 +110,7 @@ class CategoryViews(APIView):
 #             return Response(serializer_elem.data)
         
 #         return Response({"status": "faild", "message": serializer_elem.errors})
+
+
+def testFunction(request):
+    return HttpResponse('HELLO TEST 123')

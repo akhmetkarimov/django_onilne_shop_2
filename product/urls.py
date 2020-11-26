@@ -6,4 +6,5 @@ urlpatterns = [
     path('characteristic/<int:pk>', views.CharacteristicDetailViews.as_view()),
     path('category/', views.CategoryViews.as_view()),
     path('product/', views.ProductViews.as_view()),
+    path('test123/', views.testFunction)
 ]
