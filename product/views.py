@@ -7,9 +7,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from django.http import HttpResponse
 from rest_framework import permissions
-
-
-
 from product import utils
 
 class ProductViews(ListAPIView):
