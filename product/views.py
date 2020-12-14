@@ -8,6 +8,27 @@ from rest_framework import filters
 from django.http import HttpResponse
 from rest_framework import permissions
 from product import utils
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
+
+
+class CharacteristicViewSet(viewsets.ViewSet):
+    # permission_classes = (permissions.IsAuthenticated, )
+
+    def list(self, request):
+        queryset = models.Characteristic.objects.all()
+        serializer = serializers.CharacteristicSerializers(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = models.Characteristic.objects.all()
+        item = get_object_or_404(queryset, pk=pk)
+        serializer = serializers.CharacteristicSerializers(item)
+        return Response(serializer.data)
+
+
+
+
 
 class ProductViews(ListAPIView):
     serializer_class = serializers.ProductSerializers
